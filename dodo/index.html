@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodô Mello | Vereador – Taquara/RS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ─── TOKENS ────────────────────────────────────── */
+        :root {
+            --navy:      #0B1F45;
+            --navy-mid:  #13316E;
+            --blue:      #1A56DB;
+            --blue-light:#3B82F6;
+            --gold:      #C8973A;
+            --gold-light:#F0BA5A;
+            --off-white: #F7F6F2;
+            --white:     #FFFFFF;
+            --text:      #1E2A3A;
+            --muted:     #64748B;
+            --border:    #E2E8F0;
+
+            --display: 'Playfair Display', Georgia, serif;
+            --body:    'Inter', system-ui, sans-serif;
+
+            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* ─── RESET ──────────────────────────────────────── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--body);
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { display: block; max-width: 100%; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ─── SCROLL PROGRESS ──────────────────────────── */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            z-index: 2000; transition: width .1s linear;
+        }
+
+        /* ─── NAVBAR ───────────────────────────────────── */
+        .nav {
+            position: fixed; top: 0; width: 100%;
+            padding: 0 5vw;
+            height: 80px;
+            display: flex; align-items: center; justify-content: space-between;
+            background: transparent;
+            z-index: 1000;
+            transition: background .4s var(--ease), box-shadow .4s var(--ease), height .4s var(--ease);
+        }
+        .nav.solid {
+            background: rgba(11,31,69,.97);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0,0,0,.25);
+            height: 68px;
+        }
+        .nav-logo {
+            font-family: var(--display);
+            font-size: 1.5rem;
+            color: var(--white);
+            letter-spacing: -.02em;
+        }
+        .nav-logo em { font-style: normal; color: var(--gold); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            font-size: .82rem; font-weight: 600; letter-spacing: .1em;
+            text-transform: uppercase; color: rgba(255,255,255,.75);
+            transition: color .25s;
+        }
+        .nav-links a:hover { color: var(--gold-light); }
+        .nav-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--gold); color: var(--navy); font-weight: 700;
+            font-size: .82rem; text-transform: uppercase; letter-spacing: .08em;
+            padding: 11px 22px; border-radius: 4px;
+            transition: background .25s, transform .25s;
+        }
+        .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+        .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
+
+        /* ─── HERO ──────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            background: var(--navy);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: stretch;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Diagonal gold slice */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 0; height: 0;
+            border-style: solid;
+            border-width: 0 0 120px 100vw;
+            border-color: transparent transparent var(--off-white) transparent;
+        }
+        .hero-left {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 160px 5vw 120px 8vw;
+            position: relative; z-index: 1;
+        }
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: .75rem; font-weight: 700; letter-spacing: .18em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        .eyebrow::before {
+            content: ''; width: 32px; height: 2px; background: var(--gold);
+        }
+        .hero h1 {
+            font-family: var(--display);
+            font-size: clamp(3rem, 5vw, 5.5rem);
+            line-height: 1.0;
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+        .hero h1 .accent { color: var(--gold); display: block; }
+        .hero-desc {
+            font-size: 1.1rem; color: rgba(255,255,255,.65);
+            max-width: 480px; margin-bottom: 3rem; line-height: 1.8;
+        }
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-gold {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--gold); color: var(--navy);
+            font-weight: 700; font-size: .9rem; letter-spacing: .05em;
+            padding: 16px 32px; border-radius: 4px;
+            transition: background .25s, transform .25s, box-shadow .25s;
+        }
+        .btn-gold:hover {
+            background: var(--gold-light); transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(200,151,58,.35);
+        }
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 10px;
+            border: 2px solid rgba(255,255,255,.3); color: var(--white);
+            font-weight: 600; font-size: .9rem; letter-spacing: .05em;
+            padding: 14px 30px; border-radius: 4px;
+            transition: border-color .25s, background .25s;
+        }
+        .btn-outline:hover { border-color: var(--gold); background: rgba(200,151,58,.08); }
+
+        .hero-right {
+            position: relative;
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        /* Gold vertical accent */
+        .hero-right::before {
+            content: ''; position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+        }
+        .hero-photo {
+            width: 82%; max-width: 460px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            box-shadow: -30px 30px 80px rgba(0,0,0,.5);
+            position: relative; z-index: 1;
+            margin-bottom: 0;
+            align-self: flex-end;
+        }
+        .hero-stat-strip {
+            display: flex; gap: 2px;
+            margin-top: 3.5rem;
+        }
+        .stat-pill {
+            background: rgba(255,255,255,.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,.1);
+            padding: 14px 28px; text-align: center;
+        }
+        .stat-pill strong { display: block; font-size: 1.8rem; font-weight: 800; color: var(--gold); line-height: 1; }
+        .stat-pill span { font-size: .72rem; color: rgba(255,255,255,.55); letter-spacing: .06em; text-transform: uppercase; }
+
+        /* ─── SOBRE ──────────────────────────────────────── */
+        .sobre {
+            background: var(--off-white);
+            padding: 120px 8vw;
+        }
+        .section-label {
+            font-size: .72rem; font-weight: 700; letter-spacing: .2em;
+            text-transform: uppercase; color: var(--gold);
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .section-label::before { content: ''; width: 28px; height: 2px; background: var(--gold); }
+        .sobre-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-top: 60px;
+        }
+        .sobre h2 {
+            font-family: var(--display);
+            font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+            line-height: 1.1;
+            color: var(--navy);
+            margin-bottom: 2rem;
+        }
+        .sobre p {
+            font-size: 1.05rem; color: var(--muted); margin-bottom: 1.4rem;
+            text-align: justify;
+        }
+        .sobre p strong { color: var(--navy); font-weight: 600; }
+        .info-tiles {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+            margin-top: 2rem;
+        }
+        .info-tile {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            padding: 20px 22px;
+            border-radius: 4px;
+        }
+        .info-tile .label { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+        .info-tile .value { font-size: 1rem; font-weight: 700; color: var(--navy); margin-top: 4px; }
+        .sobre-visual {
+            position: relative;
+        }
+        .quote-block {
+            background: var(--navy);
+            padding: 48px 40px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-block::before {
+            content: '"';
+            font-family: var(--display);
+            font-size: 12rem;
+            line-height: .8;
+            color: var(--gold);
+            opacity: .12;
+            position: absolute;
+            top: -10px; left: 20px;
+        }
+        .quote-block blockquote {
+            font-family: var(--display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.5;
+            position: relative; z-index: 1;
+        }
+        .quote-block cite {
+            display: block; margin-top: 1.5rem;
+            font-style: normal; font-size: .82rem; font-weight: 600;
+            letter-spacing: .1em; text-transform: uppercase;
+            color: var(--gold);
+        }
+        .timeline {
+            margin-top: 28px;
+            display: flex; flex-direction: column; gap: 0;
+        }
+        .tl-item {
+            display: flex; gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .tl-item:last-child { border-bottom: none; }
+        .tl-year {
+            font-size: .78rem; font-weight: 800; letter-spacing: .1em;
+            color: var(--blue); min-width: 52px; padding-top: 2px;
+        }
+        .tl-text { font-size: .95rem; color: var(--text); }
+
+        /* ─── PROPOSTAS ──────────────────────────────────── */
+        .propostas {
+            background: var(--white);
+            padding: 120px 8vw;
+        }
+        .propostas-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 64px; gap: 40px; flex-wrap: wrap;
+        }
+        .propostas-header h2 {
+            font-family: var(--display);
+            font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+            line-height: 1.1; color: var(--navy);
+            max-width: 480px;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .card {
+            background: var(--off-white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--gold);
+            padding: 40px 36px;
+            border-radius: 4px;
+            transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 60px rgba(11,31,69,.12);
+            border-top-color: var(--blue);
+        }
+        .card-icon {
+            width: 52px; height: 52px;
+            background: var(--navy);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 28px;
+        }
+        .card-icon svg { width: 24px; height: 24px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+        .card h3 {
+            font-family: var(--display);
+            font-size: 1.4rem; color: var(--navy);
+            margin-bottom: 14px;
+        }
+        .card p { font-size: .95rem; color: var(--muted); line-height: 1.75; }
+
+        /* ─── ATUAÇÃO ──────────────────────────────────── */
+        .atuacao {
+            background: var(--navy);
+            padding: 120px 8vw;
+        }
+        .atuacao .section-label { color: var(--gold-light); }
+        .atuacao .section-label::before { background: var(--gold-light); }
+        .atuacao h2 {
+            font-family: var(--display);
+            font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+            color: var(--white); margin-bottom: 64px;
+        }
+        .act-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+        }
+        .act-item {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.08);
+            padding: 44px 36px;
+            transition: background .3s;
+        }
+        .act-item:hover { background: rgba(255,255,255,.08); }
+        .act-num {
+            font-family: var(--display);
+            font-size: 3.5rem; font-weight: 900;
+            color: var(--gold); opacity: .25;
+            line-height: 1; margin-bottom: 20px;
+        }
+        .act-item h4 {
+            font-size: 1.05rem; font-weight: 700;
+            color: var(--white); margin-bottom: 12px;
+        }
+        .act-item p { font-size: .9rem; color: rgba(255,255,255,.5); line-height: 1.75; }
+
+        /* ─── SOCIAL ────────────────────────────────────── */
+        .social-sec {
+            background: var(--off-white);
+            padding: 120px 8vw;
+            text-align: center;
+        }
+        .social-sec h2 {
+            font-family: var(--display);
+            font-size: clamp(2rem, 3vw, 3rem);
+            color: var(--navy); margin-bottom: 1rem;
+        }
+        .social-sec p { color: var(--muted); font-size: 1.05rem; max-width: 540px; margin: 0 auto 3rem; }
+        .social-row {
+            display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+        }
+        .soc-btn {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 18px 36px; border-radius: 4px;
+            font-weight: 700; font-size: .9rem; letter-spacing: .04em;
+            transition: transform .25s, box-shadow .25s;
+        }
+        .soc-btn:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.15); }
+        .soc-btn svg { width: 20px; height: 20px; }
+        .soc-ig { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+        .soc-fb { background: #1877F2; color: #fff; }
+
+        /* ─── FOOTER ────────────────────────────────────── */
+        .footer {
+            background: #080F22;
+            padding: 60px 8vw 40px;
+        }
+        .footer-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            flex-wrap: wrap; gap: 24px;
+        }
+        .footer-logo {
+            font-family: var(--display);
+            font-size: 1.4rem; color: var(--white);
+        }
+        .footer-logo em { font-style: normal; color: var(--gold); }
+        .footer-tagline { font-size: .85rem; color: rgba(255,255,255,.35); margin-top: 6px; }
+        .footer-soc { display: flex; gap: 1.5rem; }
+        .footer-soc a {
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.12);
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,.5);
+            transition: border-color .25s, color .25s;
+        }
+        .footer-soc a:hover { border-color: var(--gold); color: var(--gold); }
+        .footer-soc svg { width: 18px; height: 18px; }
+        .footer-copy {
+            text-align: center; margin-top: 32px;
+            font-size: .78rem; color: rgba(255,255,255,.2);
+        }
+
+        /* ─── MOBILE NAV ─────────────────────────────────── */
+        .mobile-nav {
+            display: none;
+            position: fixed; inset: 0;
+            background: var(--navy);
+            z-index: 1500;
+            flex-direction: column; align-items: center; justify-content: center;
+            gap: 2.5rem;
+        }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a {
+            font-family: var(--display);
+            font-size: 2.2rem; color: var(--white);
+            transition: color .25s;
+        }
+        .mobile-nav a:hover { color: var(--gold); }
+        .close-mob {
+            position: absolute; top: 28px; right: 5vw;
+            background: none; border: none; cursor: pointer;
+            color: var(--white); font-size: 2rem;
+        }
+
+        /* ─── ANIMATIONS ──────────────────────────────── */
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity .7s var(--ease), transform .7s var(--ease);
+        }
+        .reveal.in { opacity: 1; transform: none; }
+        .reveal-left {
+            opacity: 0; transform: translateX(-40px);
+            transition: opacity .7s var(--ease), transform .7s var(--ease);
+        }
+        .reveal-left.in { opacity: 1; transform: none; }
+        .reveal-right {
+            opacity: 0; transform: translateX(40px);
+            transition: opacity .7s var(--ease), transform .7s var(--ease);
+        }
+        .reveal-right.in { opacity: 1; transform: none; }
+
+        /* ─── RESPONSIVE ──────────────────────────────── */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+            }
+            .hero-right {
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                padding: 0 6vw;
+                min-height: 300px;
+                order: -1;
+            }
+            .hero-right::before { display: none; }
+            .hero-photo {
+                width: 60%;
+                max-width: 260px;
+                border-radius: 8px 8px 0 0;
+                margin-top: 90px;
+            }
+            .hero-left { padding: 28px 6vw 80px; }
+            .sobre-grid { grid-template-columns: 1fr; gap: 48px; }
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+            .act-grid { grid-template-columns: 1fr; gap: 2px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .info-tiles { grid-template-columns: 1fr; }
+            .propostas-header { flex-direction: column; align-items: flex-start; }
+            .hero-stat-strip { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .footer-inner { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progress"></div>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobileNav">
+    <button class="close-mob" id="closeMob">✕</button>
+    <a href="#inicio" onclick="closeMobileNav()">Início</a>
+    <a href="#sobre" onclick="closeMobileNav()">Sobre</a>
+    <a href="#propostas" onclick="closeMobileNav()">Propostas</a>
+    <a href="#redes" onclick="closeMobileNav()">Redes</a>
+</div>
+
+<!-- Navbar -->
+<nav class="nav" id="nav">
+    <a href="#inicio" class="nav-logo">Dodô<em>Mello</em></a>
+    <ul class="nav-links">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#propostas">Propostas</a></li>
+        <li><a href="#atuacao">Atuação</a></li>
+        <li><a href="#redes">Redes</a></li>
+    </ul>
+    <a href="#redes" class="nav-cta">Siga-nos</a>
+    <button class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────────────────── -->
+<section class="hero" id="inicio">
+    <div class="hero-left">
+        <div class="eyebrow reveal">Republicanos · Número 10 · Taquara–RS</div>
+        <h1 class="reveal" style="transition-delay:.1s">
+            Juntos somos
+            <span class="accent">mais fortes!</span>
+        </h1>
+        <p class="hero-desc reveal" style="transition-delay:.2s">
+            Saúde humanizada, presença nos bairros e compromisso real com Taquara.
+            Um vereador que você conhece de perto.
+        </p>
+        <div class="hero-btns reveal" style="transition-delay:.3s">
+            <a href="#propostas" class="btn-gold">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                Minhas Propostas
+            </a>
+            <a href="#sobre" class="btn-outline">Conheça o Dodô</a>
+        </div>
+
+        <div class="hero-stat-strip reveal" style="transition-delay:.45s">
+            <div class="stat-pill">
+                <strong>6+</strong>
+                <span>Anos no SUS</span>
+            </div>
+            <div class="stat-pill">
+                <strong>2026</strong>
+                <span>Pres. da Câmara</span>
+            </div>
+            <div class="stat-pill">
+                <strong>+1000</strong>
+                <span>Ecografias zero fila</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <img src="dodo.jpg" alt="Douglas Dodô Mello" class="hero-photo reveal-right" style="transition-delay:.2s">
+    </div>
+</section>
+
+<!-- ─── SOBRE ──────────────────────────────────────────────── -->
+<section class="sobre" id="sobre">
+    <div class="section-label reveal">Quem é o Dodô</div>
+    <div class="sobre-grid">
+        <div class="reveal-left">
+            <h2>Douglas Rodrigo Marques de Mello</h2>
+            <p>Sou Dodô, nascido e criado em Taquara. Filho de Suzana e Moacir Mello — o <strong>"Melinho"</strong> (in memoriam). Comecei a trabalhar aos 14 anos em uma fábrica de calçados para ajudar em casa.</p>
+            <p>Depois da indústria, encontrei meu propósito na saúde pública. Em 2014, assumi a coordenação da <strong>UBS Santa Terezinha</strong> — a unidade do bairro onde cresci. São 6 anos entendendo de perto o que significa defender o direito de cada pessoa a um atendimento digno.</p>
+            <p>Como Secretário de Saúde, liderei o mutirão que zerouuma fila de mais de mil pacientes esperando por ecografias. Como vereador, fui eleito <strong>Presidente da Câmara para 2026</strong>.</p>
+            <div class="info-tiles">
+                <div class="info-tile">
+                    <div class="label">Nascimento</div>
+                    <div class="value">14/04/1990 · Taquara–RS</div>
+                </div>
+                <div class="info-tile">
+                    <div class="label">Partido</div>
+                    <div class="value">Republicanos · Nº 10</div>
+                </div>
+                <div class="info-tile">
+                    <div class="label">Formação</div>
+                    <div class="value">Saúde Pública · SUS</div>
+                </div>
+                <div class="info-tile">
+                    <div class="label">Cargo Atual</div>
+                    <div class="value">Vereador + Pres. Câmara</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sobre-visual reveal-right">
+            <div class="quote-block">
+                <blockquote>
+                    "Todo taquarense merece atendimento humanizado, ágil e de qualidade — sem exceção."
+                </blockquote>
+                <cite>— Douglas Dodô Mello</cite>
+            </div>
+            <div class="timeline">
+                <div class="tl-item">
+                    <span class="tl-year">2004</span>
+                    <span class="tl-text">Primeiro emprego — fábrica de calçados, aos 14 anos</span>
+                </div>
+                <div class="tl-item">
+                    <span class="tl-year">2014</span>
+                    <span class="tl-text">Ingresso na saúde pública; coord. UBS Santa Terezinha</span>
+                </div>
+                <div class="tl-item">
+                    <span class="tl-year">2020</span>
+                    <span class="tl-text">Eleito vereador por Taquara pelo Republicanos</span>
+                </div>
+                <div class="tl-item">
+                    <span class="tl-year">2026</span>
+                    <span class="tl-text">Eleito Presidente da Câmara Municipal de Taquara</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PROPOSTAS ──────────────────────────────────────────── -->
+<section class="propostas" id="propostas">
+    <div class="propostas-header">
+        <div>
+            <div class="section-label reveal">Realizações &amp; Prioridades</div>
+            <h2 class="reveal" style="transition-delay:.1s">Um histórico de trabalho com resultados reais</h2>
+        </div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card reveal" style="transition-delay:.0s">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3>Gestão na Saúde</h3>
+            <p>Liderou o <strong>Mutirão de Ecografias</strong> que eliminou uma fila de mais de mil pacientes. Implementou melhorias no atendimento pediátrico e na triagem do SUS municipal.</p>
+        </div>
+        <div class="card reveal" style="transition-delay:.1s">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+            <h3>Atendimento Humanizado</h3>
+            <p>Seis anos à frente da UBS Santa Terezinha priorizando dignidade, agilidade e acolhimento. Um modelo que defende como padrão para toda a rede pública de Taquara.</p>
+        </div>
+        <div class="card reveal" style="transition-delay:.2s">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <h3>Presidência da Câmara</h3>
+            <p>Eleito Presidente da Câmara para 2026, comprometido em economizar recursos públicos e aproximar o legislativo da vida cotidiana dos taquarenses.</p>
+        </div>
+        <div class="card reveal" style="transition-delay:.3s">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <h3>Sustentabilidade</h3>
+            <p>Projetos de política ambiental e urbanismo sustentável para garantir que Taquara cresça de forma responsável, preservando qualidade de vida para as próximas gerações.</p>
+        </div>
+        <div class="card reveal" style="transition-delay:.4s">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h3>Infraestrutura nos Bairros</h3>
+            <p>Solicitações constantes de melhorias em vias, faixas de segurança e redutores de velocidade. Presença ativa nas comunidades, ouvindo quem mora e vive cada bairro.</p>
+        </div>
+        <div class="card reveal" style="transition-delay:.5s">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Diálogo Aberto</h3>
+            <p>Ponte direta entre comunidade e poder público. Visitas constantes e escuta ativa para transformar demandas reais dos moradores em ações concretas na Câmara.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ATUAÇÃO ────────────────────────────────────────────── -->
+<section class="atuacao" id="atuacao">
+    <div class="section-label reveal">Presença nos Bairros</div>
+    <h2 class="reveal" style="transition-delay:.1s">Atuação legislativa<br>no dia a dia da cidade</h2>
+    <div class="act-grid">
+        <div class="act-item reveal" style="transition-delay:.1s">
+            <div class="act-num">01</div>
+            <h4>Segurança no Trânsito</h4>
+            <p>Faixas de pedestres, redutores de velocidade e sinalização: ações concretas para proteger quem circula pelos bairros de Taquara.</p>
+        </div>
+        <div class="act-item reveal" style="transition-delay:.2s">
+            <div class="act-num">02</div>
+            <h4>Manutenção Urbana</h4>
+            <p>Voz ativa na conservação de vias, calçadas e infraestrutura pública. Cada demanda do morador vira ofício assinado na Câmara.</p>
+        </div>
+        <div class="act-item reveal" style="transition-delay:.3s">
+            <div class="act-num">03</div>
+            <h4>Diálogo Permanente</h4>
+            <p>Visitas regulares a associações de moradores, comunidades e lideranças. Política que começa na rua, não no gabinete.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── REDES SOCIAIS ─────────────────────────────────────── -->
+<section class="social-sec" id="redes">
+    <div class="section-label reveal" style="justify-content:center">Fique por dentro</div>
+    <h2 class="reveal" style="transition-delay:.1s">Acompanhe nosso trabalho</h2>
+    <p class="reveal" style="transition-delay:.2s">Novidades, projetos e presença na comunidade em tempo real pelas nossas redes.</p>
+    <div class="social-row reveal" style="transition-delay:.3s">
+        <a href="https://www.instagram.com/dodomelloo/" target="_blank" class="soc-btn soc-ig">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            Instagram
+        </a>
+        <a href="https://www.facebook.com/dodo.mello1/" target="_blank" class="soc-btn soc-fb">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+            Facebook
+        </a>
+    </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────── -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-logo">Dodô<em>Mello</em></div>
+            <div class="footer-tagline">Juntos somos mais fortes · Republicanos · Taquara–RS</div>
+        </div>
+        <div class="footer-soc">
+            <a href="https://www.instagram.com/dodomelloo/" target="_blank" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+            <a href="https://www.facebook.com/dodo.mello1/" target="_blank" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div class="footer-copy">© 2026 Dodô Mello. Todos os direitos reservados.</div>
+</footer>
+
+<script>
+    // Progress bar
+    const prog = document.getElementById('progress');
+    window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    });
+
+    // Navbar solidify
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('solid', window.scrollY > 60);
+    });
+
+    // Mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const closeMob = document.getElementById('closeMob');
+    hamburger.addEventListener('click', () => mobileNav.classList.add('open'));
+    closeMob.addEventListener('click', () => mobileNav.classList.remove('open'));
+    function closeMobileNav() { mobileNav.classList.remove('open'); }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const t = document.querySelector(a.getAttribute('href'));
+            if (t) {
+                e.preventDefault();
+                t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+            if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Trigger hero elements immediately
+    setTimeout(() => {
+        document.querySelectorAll('.hero .reveal, .hero .reveal-right').forEach(el => el.classList.add('in'));
+    }, 200);
+</script>
+</body>
+</html>
